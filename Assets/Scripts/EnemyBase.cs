@@ -9,7 +9,7 @@ public class EnemyBase : MonoBehaviour
 {
     public int maxHp = 20;
     public int hp;
-    public float moveSpeed = 3.5f;
+    public float moveSpeed = 1.75f;
     public int contactDamage = 10;
 
     protected RoomController room;

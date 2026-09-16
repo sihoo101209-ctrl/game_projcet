@@ -20,7 +20,7 @@
       "type": "start",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 0, "tank": 0 },
+      "enemies": { "melee": 3, "ranged": 0, "tank": 0 },
       "boss": null,
       "reward": null
     },
@@ -30,7 +30,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 1, "ranged": 0, "tank": 0 },
+      "enemies": { "melee": 1, "ranged": 1, "tank": 0 },
       "boss": null,
       "reward": null
     },
@@ -40,7 +40,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 0, "ranged": 1, "tank": 0 },
+      "enemies": { "melee": 0, "ranged": 2, "tank": 0 },
       "boss": null,
       "reward": "heal"
     },
@@ -50,7 +50,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 0, "ranged": 2, "tank": 0 },
+      "enemies": { "melee": 0, "ranged": 2, "tank": 1 },
       "boss": null,
       "reward": null
     },
@@ -60,7 +60,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 1, "ranged": 2, "tank": 0 },
+      "enemies": { "melee": 2, "ranged": 3, "tank": 0 },
       "boss": null,
       "reward": "weapon"
     },
@@ -70,7 +70,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 1, "tank": 1 },
+      "enemies": { "melee": 3, "ranged": 1, "tank": 1 },
       "boss": null,
       "reward": null
     },
@@ -100,7 +100,7 @@
       "type": "detour",
       "isDeadEnd": true,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 0, "tank": 0 },
+      "enemies": { "melee": 3, "ranged": 0, "tank": 0 },
       "boss": null,
       "reward": null
     },
@@ -110,7 +110,7 @@
       "type": "detour",
       "isDeadEnd": true,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 0, "tank": 0 },
+      "enemies": { "melee": 3, "ranged": 0, "tank": 0 },
       "boss": null,
       "reward": null
     },
@@ -120,7 +120,7 @@
       "type": "detour",
       "isDeadEnd": true,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 0, "tank": 0 },
+      "enemies": { "melee": 3, "ranged": 0, "tank": 0 },
       "boss": null,
       "reward": null
     }
@@ -142,13 +142,13 @@
     { "from": 6, "to": 3, "oneWay": true }
   ],
   "_meta": {
-    "totalEnemies": 20,
-    "enemyBreakdown": "근접 12 + 원거리 6 + 탱커 1 + 준보스 1 = 20 (최종 보스는 별도)",
-    "mainPathEnemies": 14,
-    "detourEnemies": 6,
+    "totalEnemies": 30,
+    "enemyBreakdown": "근접 18 + 원거리 9 + 탱커 2 + 준보스 1 = 30 (최종 보스는 별도)",
+    "mainPathEnemies": 21,
+    "detourEnemies": 9,
     "shortestPathRooms": "시작방 + 8방 (A와 동일)",
     "branchPoints": 3,
     "branchPointRooms": "방 3(위로), 방 4(위로), 방 6(방 3으로 일방통행)",
-    "note": "되돌림 복도 설계. 방 3 또는 방 4에서 위로 올라가면 101/102/103 가로 복도가 나오고, 서쪽 끝 102에서 아래로 떨어지면 방 2 로 돌아간다. 최단 경로는 여전히 8방이며 어떤 경로로도 지름길이 생기지 않는다. A 대비 방 2·3·4 에서 근접 2마리씩 빼서 복도 3칸에 2마리씩 배치, 총 적 수 20 동일. 복도도 문이 잠기므로 진입 시 전투가 강제됨(의도된 설계, 보고서에 명시할 것). 102 에서 방 2 로 가는 통로와 방 6 에서 방 3 으로 가는 통로는 반드시 일방통행."
+    "note": "되돌림 복도 설계. 방 3 또는 방 4에서 위로 올라가면 101/102/103 가로 복도가 나오고, 서쪽 끝 102에서 아래로 떨어지면 방 2 로 돌아간다. 최단 경로는 여전히 8방이며 어떤 경로로도 지름길이 생기지 않는다. A 대비 방 2·3·4 에서 근접 3마리씩 빼서 복도 3칸에 3마리씩 배치, 총 적 수 30 동일. 복도도 문이 잠기므로 진입 시 전투가 강제됨(의도된 설계, 보고서에 명시할 것). 102 에서 방 2 로 가는 통로와 방 6 에서 방 3 으로 가는 통로는 반드시 일방통행."
   }
 }

@@ -215,10 +215,11 @@ public class MapBuilder : MonoBehaviour
             if (r.boss == "mini") mini++;
             if (r.boss == "final") final++;
         }
+        const int expected = 30;                    // A/B 모두 이 값이어야 데이터가 유효
         int total = melee + ranged + tank + mini;   // 최종 보스는 별도
         string msg = $"[맵 {map.version}] 총 적 수 = {total} (근접 {melee} + 원거리 {ranged} + 탱커 {tank} + 준보스 {mini}), 최종 보스 {final} 별도";
-        if (total == 20) Debug.Log(msg + " ✓");
-        else Debug.LogError(msg + " — 20이 아님! 데이터 무효 위험, JSON 확인 필요");
+        if (total == expected) Debug.Log(msg + " ✓");
+        else Debug.LogError(msg + $" — {expected}이 아님! 데이터 무효 위험, JSON 확인 필요");
     }
 
     void SpawnPlayer(MapData map)

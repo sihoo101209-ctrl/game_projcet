@@ -20,7 +20,7 @@
       "type": "start",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 0, "tank": 0 },
+      "enemies": { "melee": 3, "ranged": 0, "tank": 0 },
       "boss": null,
       "reward": null
     },
@@ -30,7 +30,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 3, "ranged": 0, "tank": 0 },
+      "enemies": { "melee": 4, "ranged": 1, "tank": 0 },
       "boss": null,
       "reward": null
     },
@@ -40,7 +40,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 1, "tank": 0 },
+      "enemies": { "melee": 3, "ranged": 2, "tank": 0 },
       "boss": null,
       "reward": "heal"
     },
@@ -50,7 +50,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 2, "tank": 0 },
+      "enemies": { "melee": 3, "ranged": 2, "tank": 1 },
       "boss": null,
       "reward": null
     },
@@ -60,7 +60,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 1, "ranged": 2, "tank": 0 },
+      "enemies": { "melee": 2, "ranged": 3, "tank": 0 },
       "boss": null,
       "reward": "weapon"
     },
@@ -70,7 +70,7 @@
       "type": "normal",
       "isDeadEnd": false,
       "lockDoors": true,
-      "enemies": { "melee": 2, "ranged": 1, "tank": 1 },
+      "enemies": { "melee": 3, "ranged": 1, "tank": 1 },
       "boss": null,
       "reward": null
     },
@@ -106,8 +106,8 @@
     { "from": 7, "to": 8, "oneWay": false }
   ],
   "_meta": {
-    "totalEnemies": 20,
-    "enemyBreakdown": "근접 12 + 원거리 6 + 탱커 1 + 준보스 1 = 20",
+    "totalEnemies": 30,
+    "enemyBreakdown": "근접 18 + 원거리 9 + 탱커 2 + 준보스 1 = 30",
     "shortestPathRooms": "시작방 + 8방",
     "branchPoints": 0,
     "deadEnds": 0,

@@ -6,7 +6,7 @@ using UnityEngine;
 ///   준보스: HP 12발 · 돌진만 · 접촉 15
 ///   보스  : HP 24발 · 8유닛 초과 돌진 / 이하 샷건(60도 5발, 사거리 8) · 접촉 20
 ///
-/// 돌진 = 1초 조준 → 직선 돌진 → 2초 경직. 이후 전체 쿨타임 3초.
+/// 돌진 = 1초 조준 → 직선 돌진 → 2초 경직. 이후 전체 쿨타임 1.5초.
 /// 샷건 사거리 8 = 패턴 전환 거리 8 (일부러 일치 — "8유닛 밖 안전지대" 규칙 통일).
 /// </summary>
 public class BossController : EnemyBase
@@ -18,7 +18,7 @@ public class BossController : EnemyBase
     const float DashSeconds = 0.8f;
     const float DashSpeed = 14f;
     const float RecoverSeconds = 2f;
-    const float CooldownSeconds = 3f;
+    const float CooldownSeconds = 1.5f;
     const float ShotgunRange = 8f;
     const float ShotgunSpeed = 9f;
     const int ShotgunPellets = 5;

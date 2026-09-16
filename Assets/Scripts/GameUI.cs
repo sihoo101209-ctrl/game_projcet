@@ -63,7 +63,7 @@ public class GameUI : MonoBehaviour
         hpFill.pivot = new Vector2(0f, 0.5f);
         hpFill.anchoredPosition = new Vector2(2f, 0f);
         hpFill.sizeDelta = new Vector2(HpBarWidth, 20f);
-        hpText = GameAssets.NewText("HPText", hpBg.transform, "120 / 120", 15, Color.white);
+        hpText = GameAssets.NewText("HPText", hpBg.transform, $"{PlayerController.MaxHP} / {PlayerController.MaxHP}", 15, Color.white);
         GameAssets.Place(hpText.rectTransform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(HpBarWidth, 20f));
 
         // 상단 중앙: 보스 체력 바 (기본 숨김)

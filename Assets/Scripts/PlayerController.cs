@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// 플레이어: WASD 이동(5유닛/초) · 마우스 꾹 누르기 자동 연사 · HP 120 · 무적 0.5초.
+/// 플레이어: WASD 이동(2.5유닛/초) · 마우스 꾹 누르기 자동 연사 · HP 100 · 무적 0.5초.
 /// 대시·구르기·탄약 제한 없음 (변수 추가 금지).
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
@@ -9,17 +9,17 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
 
-    public const int MaxHP = 120;
+    public const int MaxHP = 100;
     public int HP { get; private set; } = MaxHP;
     public bool IsDead { get; private set; }
 
-    const float MoveSpeed = 5f;
+    const float MoveSpeed = 2.5f;
     const float ProjectileSpeed = 15f;
     const float ProjectileRange = 8f;    // 화면 절반쯤에서 소멸
     const int ProjectileDamage = 10;
     const float InvulnSeconds = 0.5f;
 
-    float fireInterval = 0.25f;          // 무기 획득 시 0.15
+    float fireInterval = 0.5f;           // 무기 획득 시 0.3
     float nextFireTime;
     float invulnUntil;
 
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         if (GameUI.Instance != null) GameUI.Instance.SetHP(HP, MaxHP);
     }
 
-    public void UpgradeWeapon() => fireInterval = 0.15f;
+    public void UpgradeWeapon() => fireInterval = 0.3f;
 
     void Die()
     {
