@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ public class RoomController : MonoBehaviour
     readonly List<DoorController> doors = new List<DoorController>();
     readonly List<EnemyBase> alive = new List<EnemyBase>();
     bool inCombat;
+    bool doorsLocked;
 
     public bool IsCleared => Cleared.Contains(data.id);
 
@@ -55,21 +57,28 @@ public class RoomController : MonoBehaviour
 
     void Enter(Transform player)
     {
-        bool sameRoom = CurrentRoomId == data.id;
         CurrentRoomId = data.id;
         CameraController.SnapTo(center);
         if (GameUI.Instance != null) GameUI.Instance.SetRoom(data.id);
 
-        if (IsCleared || (sameRoom && inCombat)) return;
+        if (IsCleared) return;
+        if (inCombat)
+        {
+            // 잠기기 전에 나갔다가 다시 들어온 경우 — 스폰·잠금 절차는 이미 진행 중
+            entryPoint = ClampInside(player.position);
+            return;
+        }
         StartCombat(player.position);
     }
 
     void StartCombat(Vector2 playerPos)
     {
-        entryPoint = playerPos;
+        entryPoint = ClampInside(playerPos);   // 문 통로가 아니라 방 안쪽에서 부활하게
         inCombat = true;
-        foreach (var d in doors) d.SetCombatLocked(true);
         SpawnAll();
+        // 문은 플레이어가 방 안쪽으로 완전히 들어온 뒤에 잠근다.
+        // 통로 안에서 잠그면 물리가 플레이어를 방 밖으로 튕겨낸다.
+        StartCoroutine(LockDoorsWhenPlayerInside());
         if (data.HasBoss && GameUI.Instance != null)
         {
             var boss = alive.Find(e => e is BossController);
@@ -113,6 +122,36 @@ public class RoomController : MonoBehaviour
             alive.Add(UnitFactory.CreateBoss(data.boss == "final", center, this));
     }
 
+    IEnumerator LockDoorsWhenPlayerInside()
+    {
+        while (inCombat && !PlayerInside()) yield return null;
+        if (!inCombat || doorsLocked) yield break;
+        doorsLocked = true;
+        foreach (var d in doors) d.SetCombatLocked(true);
+    }
+
+    /// <summary>플레이어 콜라이더가 방 내부(벽 안쪽)에 완전히 들어와 있는가.</summary>
+    bool PlayerInside()
+    {
+        var p = PlayerController.Instance;
+        if (p == null || p.Body == null) return false;
+        var b = p.Body.bounds;
+        Vector2 half = MapBuilder.RoomSize * 0.5f;
+        const float m = 0.05f;
+        return b.min.x > center.x - half.x + m && b.max.x < center.x + half.x - m
+            && b.min.y > center.y - half.y + m && b.max.y < center.y + half.y - m;
+    }
+
+    /// <summary>방 내부로 좌표 보정 (벽·문에서 플레이어 반지름 + 여유만큼 안쪽).</summary>
+    Vector2 ClampInside(Vector2 pos)
+    {
+        float r = PlayerController.Instance != null ? PlayerController.Instance.Radius : 0.6f;
+        Vector2 half = MapBuilder.RoomSize * 0.5f - Vector2.one * (r + 0.3f);
+        return new Vector2(
+            Mathf.Clamp(pos.x, center.x - half.x, center.x + half.x),
+            Mathf.Clamp(pos.y, center.y - half.y, center.y + half.y));
+    }
+
     public void OnEnemyDied(EnemyBase enemy)
     {
         alive.Remove(enemy);
@@ -123,7 +162,11 @@ public class RoomController : MonoBehaviour
     {
         inCombat = false;
         Cleared.Add(data.id);
-        foreach (var d in doors) d.SetCombatLocked(false);
+        if (doorsLocked)
+        {
+            doorsLocked = false;
+            foreach (var d in doors) d.SetCombatLocked(false);
+        }
         ApplyReward();
     }
 

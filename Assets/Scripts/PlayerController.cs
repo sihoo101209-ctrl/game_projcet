@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public const int MaxHP = 100;
     public int HP { get; private set; } = MaxHP;
     public bool IsDead { get; private set; }
+    /// <summary>문·방 경계 판정용. 자동 생성이면 원, 프리팹이면 그 콜라이더.</summary>
+    public Collider2D Body { get; private set; }
+    public float Radius => Body != null ? Mathf.Max(Body.bounds.extents.x, Body.bounds.extents.y) : 0.6f;
 
     const float MoveSpeed = 5f;
     const float ProjectileSpeed = 15f;
@@ -31,6 +34,7 @@ public class PlayerController : MonoBehaviour
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        Body = GetComponent<Collider2D>();
     }
 
     void Start()

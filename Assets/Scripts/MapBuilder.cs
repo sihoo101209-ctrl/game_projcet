@@ -197,7 +197,7 @@ public class MapBuilder : MonoBehaviour
             sr.transform.position = mid;
             sr.gameObject.AddComponent<BoxCollider2D>();
             var door = sr.gameObject.AddComponent<DoorController>();
-            door.Init(d.from, d.to, d.oneWay);
+            door.Init(d.from, d.to, d.oneWay, ca, cb);
 
             if (RoomController.All.TryGetValue(d.from, out var ra)) ra.AddDoor(door);
             if (RoomController.All.TryGetValue(d.to, out var rb)) rb.AddDoor(door);
