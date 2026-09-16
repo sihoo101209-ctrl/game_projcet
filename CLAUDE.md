@@ -269,7 +269,7 @@ Assets/
 ├── Scripts/
 │   ├── GameLogger.cs          로그 수집 (제공됨)
 │   ├── RoomTrigger.cs         방 진입 감지 (제공됨)
-│   ├── SessionStartUI.cs      타이틀 화면 (제공됨)
+│   ├── TitleScreen.cs         타이틀 화면 (코드 생성, TMP 불필요 — 원본 SessionStartUI 는 docs/미사용_TMP버전/)
 │   ├── MapData.cs             JSON 역직렬화
 │   ├── MapBuilder.cs          핵심: 방/문/적/보상 생성
 │   ├── PlayerController.cs
