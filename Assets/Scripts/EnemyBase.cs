@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyBase : MonoBehaviour
 {
-    public int maxHp = 20;
+    public int maxHp = 30;
     public int hp;
     public float moveSpeed = 3.5f;
     public int contactDamage = 10;

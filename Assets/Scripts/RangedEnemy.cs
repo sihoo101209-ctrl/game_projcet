@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// <summary>원거리: HP 2발 · 속도 2.5 · 6유닛 거리 유지 · 1.5초마다 발사.</summary>
+/// <summary>원거리: HP 3발 · 속도 2.5 · 6유닛 거리 유지 · 1.5초마다 발사.</summary>
 public class RangedEnemy : EnemyBase
 {
     const float KeepDistance = 6f;
@@ -12,7 +12,7 @@ public class RangedEnemy : EnemyBase
 
     protected override void ConfigureStats()
     {
-        maxHp = 20;
+        maxHp = 30;
         moveSpeed = 2.5f;
         contactDamage = 10;
     }

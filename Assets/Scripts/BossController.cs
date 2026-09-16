@@ -3,8 +3,8 @@ using UnityEngine;
 /// <summary>
 /// 준보스(방 7)·최종 보스(방 8) 공용. 변수만 분기 — 새 프리팹 금지.
 ///
-///   준보스: HP 12발 · 돌진만 · 접촉 15
-///   보스  : HP 24발 · 8유닛 초과 돌진 / 이하 샷건(60도 5발, 사거리 8) · 접촉 20
+///   준보스: HP 18발 · 돌진만 · 접촉 15
+///   보스  : HP 36발 · 8유닛 초과 돌진 / 이하 샷건(60도 5발, 사거리 8) · 접촉 20
 ///
 /// 돌진 = 1초 조준 → 직선 돌진 → 2초 경직. 이후 전체 쿨타임 1.5초.
 /// 샷건 사거리 8 = 패턴 전환 거리 8 (일부러 일치 — "8유닛 밖 안전지대" 규칙 통일).
@@ -34,7 +34,7 @@ public class BossController : EnemyBase
     protected override void ConfigureStats()
     {
         // 기본값은 준보스 — SetupBoss 에서 최종 보스로 덮어씀
-        maxHp = 120;
+        maxHp = 180;
         contactDamage = 15;
         moveSpeed = 0f;
     }
@@ -43,7 +43,7 @@ public class BossController : EnemyBase
     {
         Setup(r);
         isFinal = final;
-        maxHp = final ? 240 : 120;    // 24발 / 12발
+        maxHp = final ? 360 : 180;    // 36발 / 18발
         contactDamage = final ? 20 : 15;
         hp = maxHp;
         sr = GetComponent<SpriteRenderer>();
