@@ -1,0 +1,116 @@
+{
+  "version": "A",
+  "roomSize": { "w": 16, "h": 10 },
+  "spacing": { "x": 18, "y": 12 },
+  "rooms": [
+    {
+      "id": 0,
+      "grid": [-1, 0],
+      "type": "tutorial",
+      "isDeadEnd": false,
+      "lockDoors": false,
+      "enemies": { "melee": 0, "ranged": 0, "tank": 0 },
+      "boss": null,
+      "reward": null,
+      "floorText": ["WASD 이동", "마우스 클릭 공격", "적을 모두 처치하면 문이 열립니다", "ESC 메뉴"]
+    },
+    {
+      "id": 1,
+      "grid": [0, 0],
+      "type": "start",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 2, "ranged": 0, "tank": 0 },
+      "boss": null,
+      "reward": null
+    },
+    {
+      "id": 2,
+      "grid": [1, 0],
+      "type": "normal",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 3, "ranged": 0, "tank": 0 },
+      "boss": null,
+      "reward": null
+    },
+    {
+      "id": 3,
+      "grid": [2, 0],
+      "type": "normal",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 2, "ranged": 1, "tank": 0 },
+      "boss": null,
+      "reward": "heal"
+    },
+    {
+      "id": 4,
+      "grid": [3, 0],
+      "type": "normal",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 2, "ranged": 2, "tank": 0 },
+      "boss": null,
+      "reward": null
+    },
+    {
+      "id": 5,
+      "grid": [3, -1],
+      "type": "normal",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 1, "ranged": 2, "tank": 0 },
+      "boss": null,
+      "reward": "weapon"
+    },
+    {
+      "id": 6,
+      "grid": [2, -1],
+      "type": "normal",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 2, "ranged": 1, "tank": 1 },
+      "boss": null,
+      "reward": null
+    },
+    {
+      "id": 7,
+      "grid": [1, -1],
+      "type": "normal",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 0, "ranged": 0, "tank": 0 },
+      "boss": "mini",
+      "reward": "heal"
+    },
+    {
+      "id": 8,
+      "grid": [0, -1],
+      "type": "boss",
+      "isDeadEnd": false,
+      "lockDoors": true,
+      "enemies": { "melee": 0, "ranged": 0, "tank": 0 },
+      "boss": "final",
+      "reward": null
+    }
+  ],
+  "doors": [
+    { "from": 0, "to": 1, "oneWay": false },
+    { "from": 1, "to": 2, "oneWay": false },
+    { "from": 2, "to": 3, "oneWay": false },
+    { "from": 3, "to": 4, "oneWay": false },
+    { "from": 4, "to": 5, "oneWay": false },
+    { "from": 5, "to": 6, "oneWay": false },
+    { "from": 6, "to": 7, "oneWay": false },
+    { "from": 7, "to": 8, "oneWay": false }
+  ],
+  "_meta": {
+    "totalEnemies": 20,
+    "enemyBreakdown": "근접 12 + 원거리 6 + 탱커 1 + 준보스 1 = 20",
+    "shortestPathRooms": "시작방 + 8방",
+    "branchPoints": 0,
+    "deadEnds": 0,
+    "note": "대조군. 갈림길 없음. 방 3과 방 6은 격자상 인접하지만 문이 없으므로 벽으로 막아야 함. 타이머는 방 1 최초 진입 시 시작."
+  }
+}
