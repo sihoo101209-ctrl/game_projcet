@@ -104,7 +104,9 @@ public class PlayerController : MonoBehaviour
         DeathScreen.Show();
     }
 
-    /// <summary>사망 화면의 "다시 시도" — 현재 방 입구에서 부활, 그 방의 적 전원 리셋.</summary>
+    const int RespawnHP = 60;
+
+    /// <summary>사망 화면의 "다시 시도" — 현재 방 입구에서 HP 60 으로 부활, 그 방의 적 전원 리셋.</summary>
     public void Respawn()
     {
         if (RoomController.All.TryGetValue(RoomController.CurrentRoomId, out var room))
@@ -112,7 +114,7 @@ public class PlayerController : MonoBehaviour
             transform.position = room.entryPoint;
             room.ResetForRetry();
         }
-        HP = MaxHP;
+        HP = RespawnHP;
         IsDead = false;
         invulnUntil = Time.time + 1f;   // 부활 직후 잠깐 무적
         if (GameUI.Instance != null) GameUI.Instance.SetHP(HP, MaxHP);
