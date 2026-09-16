@@ -94,7 +94,7 @@ public class RoomController : MonoBehaviour
                     (float)(rng.NextDouble() * 2.0 - 1.0) * ry);
                 bool ok = true;
                 foreach (var u in used)
-                    if (Vector2.Distance(u, p) < 1.6f) { ok = false; break; }
+                    if (Vector2.Distance(u, p) < 2.2f) { ok = false; break; }
                 if (ok) { used.Add(p); return p; }
             }
             return Vector2.zero;

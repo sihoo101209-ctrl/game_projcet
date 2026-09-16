@@ -13,10 +13,10 @@ public static class UnitFactory
         var prefab = MapBuilder.Instance != null ? MapBuilder.Instance.playerPrefab : null;
         GameObject go = prefab != null
             ? Object.Instantiate(prefab, pos, Quaternion.identity)
-            : MakeUnit("Player", pos, new Color(0.3f, 0.9f, 1f), new Vector2(0.8f, 0.8f));
+            : MakeUnit("Player", pos, new Color(0.3f, 0.9f, 1f), new Vector2(1.2f, 1.2f));
 
         go.tag = "Player";   // 없으면 방 진입이 기록되지 않는다 (절대 조건)
-        EnsurePhysics(go, 0.45f);
+        EnsurePhysics(go);
         var pc = go.GetComponent<PlayerController>();
         if (pc == null) pc = go.AddComponent<PlayerController>();
         return pc;
@@ -30,22 +30,22 @@ public static class UnitFactory
         {
             case EnemyKind.Ranged:
                 prefab = MapBuilder.Instance != null ? MapBuilder.Instance.rangedPrefab : null;
-                color = new Color(1f, 0.6f, 0.15f); size = new Vector2(0.7f, 0.7f);
+                color = new Color(1f, 0.6f, 0.15f); size = new Vector2(1.05f, 1.05f);
                 break;
             case EnemyKind.Tank:
                 prefab = MapBuilder.Instance != null ? MapBuilder.Instance.tankPrefab : null;
-                color = new Color(0.55f, 0.1f, 0.1f); size = new Vector2(1.3f, 1.3f);
+                color = new Color(0.55f, 0.1f, 0.1f); size = new Vector2(1.95f, 1.95f);
                 break;
             default:
                 prefab = MapBuilder.Instance != null ? MapBuilder.Instance.meleePrefab : null;
-                color = new Color(0.95f, 0.25f, 0.25f); size = new Vector2(0.8f, 0.8f);
+                color = new Color(0.95f, 0.25f, 0.25f); size = new Vector2(1.2f, 1.2f);
                 break;
         }
 
         GameObject go = prefab != null
             ? Object.Instantiate(prefab, pos, Quaternion.identity)
             : MakeUnit("Enemy_" + kind, pos, color, size);
-        EnsurePhysics(go, size.x * 0.55f);
+        EnsurePhysics(go);
 
         EnemyBase e = go.GetComponent<EnemyBase>();
         if (e == null)
@@ -64,11 +64,11 @@ public static class UnitFactory
     public static BossController CreateBoss(bool isFinal, Vector2 pos, RoomController room)
     {
         var prefab = MapBuilder.Instance != null ? MapBuilder.Instance.bossPrefab : null;
-        float s = isFinal ? 2f : 1.6f;
+        float s = isFinal ? 3f : 2.4f;
         GameObject go = prefab != null
             ? Object.Instantiate(prefab, pos, Quaternion.identity)
             : MakeUnit(isFinal ? "Boss_Final" : "Boss_Mini", pos, new Color(0.65f, 0.25f, 0.85f), new Vector2(s, s));
-        EnsurePhysics(go, s * 0.55f);
+        EnsurePhysics(go);
 
         var boss = go.GetComponent<BossController>();
         if (boss == null) boss = go.AddComponent<BossController>();
@@ -88,7 +88,7 @@ public static class UnitFactory
         return go;
     }
 
-    static void EnsurePhysics(GameObject go, float radius)
+    static void EnsurePhysics(GameObject go)
     {
         var rb = go.GetComponent<Rigidbody2D>();
         if (rb == null) rb = go.AddComponent<Rigidbody2D>();
@@ -98,9 +98,8 @@ public static class UnitFactory
 
         if (go.GetComponent<Collider2D>() == null)
         {
-            var c = go.AddComponent<CircleCollider2D>();
-            // 스케일이 이미 크기를 결정하므로 로컬 반지름은 0.5 근처로
-            c.radius = 0.5f * Mathf.Clamp(radius / (go.transform.localScale.x * 0.5f), 0.5f, 1f);
+            // 1x1 스프라이트를 스케일로 키우므로 로컬 반지름 0.5 = 스프라이트에 내접하는 원
+            go.AddComponent<CircleCollider2D>().radius = 0.5f;
         }
     }
 }
