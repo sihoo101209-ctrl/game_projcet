@@ -1,17 +1,12 @@
 using UnityEngine;
 
 /// <summary>
-/// 문 하나. 잠금(전투 중) · 개방 · 일방통행을 모두 처리한다.
+/// 문 하나. 잠금(전투 중) · 개방 · 일방통행을 처리한다.
 ///
-/// 통과 가능 조건:
-///   1) 인접 방의 전투 잠금이 없고
-///   2) 일방통행이면 플레이어가 from 방 쪽에 있을 때만 (위치 기준 — 트리거 발동 순서에 흔들리지 않음)
+/// 통과 방식은 순간이동: 열린 문에 닿으면 반대편 방의 문 앞으로 바로 옮겨진다 (아이작 방식).
+/// 플레이어가 문 통로 안에 머무는 순간이 없으므로, 방에 들어가자마자 문을 잠가도 끼거나 튕기지 않는다.
 ///
-/// 플레이어가 문 통로 안에 있는 동안은 절대 콜라이더를 켜지 않는다.
-/// (통로 안에서 켜지면 물리가 플레이어를 아무 쪽으로나 튕겨내 방 밖으로 나가는 버그가 난다)
-///
-/// 적 전용 차단막(EnemyBarrier)은 항상 켜져 있어 적이 자기 방을 벗어나지 못한다. 플레이어와는 충돌 무시.
-///
+/// 통과 가능 조건: 인접 방 전투 잠금 없음 + (일방통행이면 from 방 쪽에서 닿았을 때만)
 /// 색: 통과 가능 = 초록(반투명), 불가 = 빨강. (필수 — 안 보이면 버그로 오해해 포기함)
 /// </summary>
 public class DoorController : MonoBehaviour
@@ -26,9 +21,11 @@ public class DoorController : MonoBehaviour
     int combatLocks;              // 인접 방이 전투 중이면 > 0
     SpriteRenderer sr;
     Collider2D solid;
-    Collider2D enemyBarrier;
     Vector2 fromCenter;
     Vector2 toCenter;
+    Vector2 axis;                 // 문을 가로지르는 축 (좌우 이웃이면 x, 상하 이웃이면 y)
+    bool toIsPositive;            // to 방이 axis 의 + 방향에 있는가
+    float halfDepth;              // 문 통로 절반 두께 (= 벽 두께)
 
     public void Init(int from, int to, bool oneWayDoor, Vector2 fromRoomCenter, Vector2 toRoomCenter)
     {
@@ -40,10 +37,13 @@ public class DoorController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         solid = GetComponent<Collider2D>();
 
-        // 부모 스케일을 물려받아 문과 같은 크기. 플레이어만 통과(IgnoreCollision), 적·투사체는 막힘
-        var barrier = new GameObject("EnemyBarrier");
-        barrier.transform.SetParent(transform, false);
-        enemyBarrier = barrier.AddComponent<BoxCollider2D>();
+        Vector2 d = toCenter - fromCenter;
+        axis = Mathf.Abs(d.x) >= Mathf.Abs(d.y) ? Vector2.right : Vector2.up;
+        toIsPositive = Vector2.Dot(d, axis) > 0f;
+        halfDepth = (axis.x != 0f ? transform.lossyScale.x : transform.lossyScale.y) * 0.5f;
+
+        // 통과 감지용 트리거 (문과 같은 크기). 물리 차단은 위의 solid 가 담당
+        gameObject.AddComponent<BoxCollider2D>().isTrigger = true;
 
         Apply();
     }
@@ -64,37 +64,27 @@ public class DoorController : MonoBehaviour
         return (pos - fromCenter).sqrMagnitude <= (pos - toCenter).sqrMagnitude;
     }
 
-    void Update()
-    {
-        var p = PlayerController.Instance;
-        if (p != null && p.Body != null && enemyBarrier != null
-            && !Physics2D.GetIgnoreCollision(enemyBarrier, p.Body))
-            Physics2D.IgnoreCollision(enemyBarrier, p.Body, true);
-
-        Apply();
-    }
+    void Update() => Apply();   // 일방통행은 플레이어 위치에 따라 달라짐
 
     void Apply()
     {
         bool open = Passable;
-        if (solid != null)
-        {
-            if (open) solid.enabled = false;
-            else if (!PlayerOverlaps()) solid.enabled = true;   // 플레이어가 빠져나간 뒤에만 닫힘
-        }
+        if (solid != null) solid.enabled = !open;
         if (sr != null) sr.color = open ? OpenColor : LockedColor;
     }
 
-    /// <summary>플레이어 콜라이더가 문 통로(이 오브젝트의 사각형)와 겹치는가.</summary>
-    bool PlayerOverlaps()
+    void OnTriggerStay2D(Collider2D other)
     {
+        if (!other.CompareTag("Player") || !Passable) return;
         var p = PlayerController.Instance;
-        if (p == null || p.Body == null) return false;
-        var b = p.Body.bounds;
-        Vector3 half = transform.lossyScale * 0.5f;
-        Vector3 c = transform.position;
-        const float margin = 0.05f;
-        return b.max.x > c.x - half.x - margin && b.min.x < c.x + half.x + margin
-            && b.max.y > c.y - half.y - margin && b.min.y < c.y + half.y + margin;
+        if (p == null || p.IsDead) return;
+
+        Vector2 door = transform.position;
+        float side = Vector2.Dot((Vector2)p.transform.position - door, axis) >= 0f ? 1f : -1f;  // 플레이어가 있는 쪽
+        Vector2 target = door - axis * side * (halfDepth + p.Radius + 0.3f);                    // 반대편 방 안쪽
+        p.TeleportTo(target);
+
+        int targetId = (side > 0f) == toIsPositive ? fromId : toId;
+        if (RoomController.All.TryGetValue(targetId, out var room)) room.Enter(p.transform);
     }
 }

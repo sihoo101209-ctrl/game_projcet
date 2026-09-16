@@ -89,6 +89,13 @@ public class PlayerController : MonoBehaviour
 
     public void UpgradeWeapon() => fireInterval = 0.3f;
 
+    /// <summary>문 통과 시 반대편 방 문 앞으로 즉시 이동 (DoorController).</summary>
+    public void TeleportTo(Vector2 pos)
+    {
+        rb.position = pos;
+        transform.position = pos;
+    }
+
     void Die()
     {
         IsDead = true;
