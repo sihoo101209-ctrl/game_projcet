@@ -1,11 +1,11 @@
 using UnityEngine;
 
-/// <summary>원거리: HP 2발 · 속도 1.25 · 6유닛 거리 유지 · 1.5초마다 발사.</summary>
+/// <summary>원거리: HP 2발 · 속도 2.5 · 6유닛 거리 유지 · 1.5초마다 발사.</summary>
 public class RangedEnemy : EnemyBase
 {
     const float KeepDistance = 6f;
     const float FireInterval = 1.5f;
-    const float ShotSpeed = 7f;      // 투사체 속도는 유지 (이속만 절반으로 조정됨)
+    const float ShotSpeed = 7f;      // 플레이어(5)보다 약간 빠른 정도 — 피할 수 있어야 한다
     const float ShotRange = 14f;
 
     float nextFireTime;
@@ -13,7 +13,7 @@ public class RangedEnemy : EnemyBase
     protected override void ConfigureStats()
     {
         maxHp = 20;
-        moveSpeed = 1.25f;
+        moveSpeed = 2.5f;
         contactDamage = 10;
     }
 
