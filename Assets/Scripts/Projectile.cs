@@ -37,6 +37,7 @@ public class Projectile : MonoBehaviour
         if (rb == null) rb = go.AddComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.gravityScale = 0f;
+        rb.useFullKinematicContacts = true;   // 2D 키네마틱은 이게 없으면 정적 벽·문과 트리거 이벤트가 안 난다
 
         var col = go.GetComponent<Collider2D>();
         if (col == null) col = go.AddComponent<CircleCollider2D>();

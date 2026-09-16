@@ -39,7 +39,11 @@ public static class GameAssets
                 }
                 catch { /* 폰트 없으면 아래 내장 폰트로 */ }
                 if (_font == null)
+                {
+                    // 내장 폰트에는 한글 글리프가 없다 → 글자가 네모로 보이면 이 경고를 확인할 것
+                    Debug.LogError("[폰트] 한글 OS 폰트(맑은 고딕 등)를 찾지 못해 내장 폰트로 대체 — 한글이 네모로 보일 수 있음");
                     _font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                }
             }
             return _font;
         }
