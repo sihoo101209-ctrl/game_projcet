@@ -45,6 +45,23 @@ public static class GameAssets
         }
     }
 
+    /// <summary>씬에 카메라가 없으면 만든다 (씬 파일을 최소로 유지하기 위해).</summary>
+    public static Camera EnsureCamera()
+    {
+        var cam = Camera.main;
+        if (cam != null) return cam;
+        var go = new GameObject("Main Camera");
+        go.tag = "MainCamera";
+        cam = go.AddComponent<Camera>();
+        go.AddComponent<AudioListener>();
+        cam.orthographic = true;
+        cam.orthographicSize = 6f;
+        cam.clearFlags = CameraClearFlags.SolidColor;
+        cam.backgroundColor = new Color(0.05f, 0.05f, 0.07f);
+        go.transform.position = new Vector3(0f, 0f, -10f);
+        return cam;
+    }
+
     // ────────── 월드 스프라이트 ──────────
 
     /// <summary>1x1 흰 스프라이트를 스케일로 늘려 사각형을 만든다.</summary>

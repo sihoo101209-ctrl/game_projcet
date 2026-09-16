@@ -46,8 +46,8 @@ public class MapBuilder : MonoBehaviour
         CurrentMap = map;
         RoomSize = new Vector2(map.roomSize.w, map.roomSize.h);
 
-        var cam = Camera.main;
-        if (cam != null && cam.GetComponent<CameraController>() == null)
+        var cam = GameAssets.EnsureCamera();
+        if (cam.GetComponent<CameraController>() == null)
             cam.gameObject.AddComponent<CameraController>();
 
         BuildRooms(map);
