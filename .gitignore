@@ -1,19 +1,57 @@
-# Unity
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
-[Uu]ser[Ss]ettings/
-[Mm]emoryCaptures/
+# ────────────── Unity ──────────────
+# 이 폴더들은 유니티가 자동으로 다시 만든다. 절대 커밋하지 말 것.
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# 빌드 산출물 (테스트_A, 테스트_B 폴더)
+/테스트_*/
+/Release/
+*.exe
+
+# 로그 CSV — 실험 데이터는 git 에 올리지 않는다
+logs/
+*.csv
+
+# Asset Store
+/[Aa]ssets/AssetStoreTools*
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Visual Studio / Rider / VS Code
 .vs/
 .idea/
+.vscode/
 *.csproj
+*.unityproj
 *.sln
+*.suo
 *.user
+*.userprefs
 *.pidb
 *.booproj
 *.svd
-*.userprefs
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Unity Crash 리포트
+sysinfo.txt
 crashlytics-build.properties
+
+# 빌드 패키지
+*.apk
+*.aab
+*.unitypackage
+*.app
