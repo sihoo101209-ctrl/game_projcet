@@ -25,11 +25,16 @@ public static class GameAssets
     }
 
     static Font _font;
-    /// <summary>한글 지원 폰트. OS 폰트(맑은 고딕 등) 우선, 실패 시 내장 폰트.</summary>
+    /// <summary>한글 지원 폰트. 포함된 나눔고딕 → OS 폰트(맑은 고딕 등) → 내장 폰트 순.</summary>
     public static Font UIFont
     {
         get
         {
+            if (_font == null)
+            {
+                // 1순위: 프로젝트에 포함된 나눔고딕 (웹 빌드에는 OS 폰트가 없으므로 필수)
+                _font = Resources.Load<Font>("Fonts/NanumGothic");
+            }
             if (_font == null)
             {
                 try

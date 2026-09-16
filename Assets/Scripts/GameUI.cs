@@ -134,6 +134,10 @@ public class GameUI : MonoBehaviour
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+        // 브라우저는 Application.Quit 이 무동작 → 타이틀로 되돌린다 (데모 전용 동작)
+        Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 #else
         Application.Quit();
 #endif

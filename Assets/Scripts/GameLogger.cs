@@ -65,7 +65,8 @@ public class GameLogger : MonoBehaviour
     {
         get
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
+            // 웹 데모: 브라우저에는 exe 옆 폴더가 없다 → IndexedDB 경로 (본 실험 데이터는 exe 빌드에서만 수집)
             return Application.persistentDataPath;
 #else
             string dir = Path.GetFullPath(Path.Combine(Application.dataPath, "..", "logs"));

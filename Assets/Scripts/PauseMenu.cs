@@ -13,7 +13,11 @@ public class PauseMenu : MonoBehaviour
     GameObject root, mainPanel, mapPanel, controlsPanel, quitPanel;
     MapScreen mapScreen;
 
-    void Start() => Build();
+    void Start()
+    {
+        IsOpen = false;      // 씬 재진입 대비
+        Build();
+    }
 
     void Update()
     {

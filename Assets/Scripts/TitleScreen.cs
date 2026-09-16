@@ -93,6 +93,22 @@ public class TitleScreen : MonoBehaviour
         string ver = GameLogger.Instance != null ? GameLogger.Instance.mapVersion : "?";
         var version = GameAssets.NewText("Version", root, "ver. " + ver, 16, new Color(0.5f, 0.5f, 0.55f), TextAnchor.LowerRight);
         GameAssets.Place(version.rectTransform, new Vector2(1f, 0f), new Vector2(-16f, 12f), new Vector2(200f, 24f));
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // 웹 데모 전용: 빌드를 두 번 하지 않고 A/B 를 바꿔볼 수 있게. exe 빌드에는 존재하지 않는다.
+        var note = GameAssets.NewText("DemoNote", root, "웹 데모 — 버전 선택", 14, new Color(0.5f, 0.5f, 0.55f), TextAnchor.LowerLeft);
+        GameAssets.Place(note.rectTransform, new Vector2(0f, 0f), new Vector2(16f, 52f), new Vector2(200f, 20f));
+        foreach (var v in new[] { "A", "B" })
+        {
+            string captured = v;
+            var b = GameAssets.NewButton("Ver_" + v, root, v, 18, () =>
+            {
+                if (GameLogger.Instance != null) GameLogger.Instance.mapVersion = captured;
+                version.text = "ver. " + captured;
+            }, new Vector2(44f, 32f));
+            GameAssets.Place((RectTransform)b.transform, new Vector2(0f, 0f), new Vector2(v == "A" ? 16f : 66f, 12f), new Vector2(44f, 32f));
+        }
+#endif
     }
 
     InputField MakeRow(RectTransform root, string label, float y)

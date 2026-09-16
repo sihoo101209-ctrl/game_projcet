@@ -17,6 +17,7 @@ public class DeathScreen : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        IsShowing = false;   // 씬을 다시 불러왔을 때(웹 데모 재시작) 이전 상태가 남지 않게
         Build();
     }
 
