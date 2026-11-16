@@ -5,29 +5,34 @@ MPU6050 + 아두이노 나노로 만든 컨트롤러로, 유니티 2D 피하기 
 
 ## 폴더 구조
 ```
-arduino/mpu_read/mpu_read.ino   아두이노 나노 업로드용
-unity/Assets/Scripts/*.cs       유니티 프로젝트 Assets/Scripts에 복사
+arduino/mpu_read/mpu_read.ino           아두이노 나노 업로드용
+unity/Assets/Scripts/*.cs               게임 스크립트
+unity/Assets/Scripts/Editor/*.cs        씬 자동 생성 메뉴
 ```
 
 ## A. 아두이노
 1. 배선: VCC→5V, GND→GND, SDA→A4, SCL→A5
-2. `mpu_read.ino` 업로드
-3. 시리얼 모니터 **115200** 으로 열고 `ax,ay,az` 숫자 3개 나오는지 확인
+2. `mpu_read.ino` 업로드 (보드: Arduino Nano, 업로드 실패하면 프로세서를 ATmega328P (Old Bootloader)로)
+3. 시리얼 모니터 **115200**으로 열고 `ax,ay,az` 숫자 3개 나오는지 확인
 4. 좌우로 기울일 때 크게 변하는 축 확인 (ax=0, ay=1, az=2)
 5. 시리얼 모니터 닫기 (열려 있으면 유니티가 포트 못 엶)
 
-## B. 유니티 세팅
-1. 새 프로젝트: 2D, 이름 `SensorAvoid`
-2. Project Settings > Player > Other Settings > Api Compatibility Level → **.NET Framework**
-3. File > Build Settings > **Add Open Scenes** (안 하면 Restart 안 됨)
-4. `Player`: Square, Position (0, -4, 0), Rigidbody 2D (Kinematic, **Use Full Kinematic Contacts 체크**), Box Collider 2D, Tag `Player`, `PlayerMove.cs`
-   - 체크 항목이 없으면: Body Type Dynamic, Gravity Scale 0, Freeze Rotation Z
-5. `Serial`: Create Empty, `SerialReceiver.cs`, Port Name을 실제 포트로
-6. `Obstacle` 프리팹: Square(빨강), Rigidbody 2D (Kinematic), Box Collider 2D (Is Trigger), `Obstacle.cs` → 프리팹화 후 원본 삭제
-7. `GameManager`: Create Empty, `GameManager.cs` + `Spawner.cs`, Obstacle Prefab 연결
+## B. 유니티 (자동)
+1. Unity Hub에서 새 프로젝트: 2D, 이름 `SensorAvoid` (Unity 2021.2 이상 권장)
+2. 이 레포의 `unity/Assets/Scripts` 폴더를 프로젝트의 `Assets` 안에 통째로 복사
+   - 복사하면 Api Compatibility Level이 자동으로 .NET Framework로 바뀜
+3. 위쪽 메뉴 **SensorAvoid > 게임 씬 자동 생성** 클릭
+   - Player, Serial, GameManager, Obstacle 프리팹, Build Settings 등록까지 다 해줌
+4. Play
 
-## C. 테스트
-- 안 움직이면 `SerialReceiver`의 Axis Index 0/1/2 바꿔보기
-- 방향 반대면 `PlayerMove.cs`의 `t * speed` → `-t * speed`
-- 난이도: `Obstacle.speed`, `Spawner.interval`
-- 포트 에러는 Console에 `포트 열기 실패` 로 표시됨
+## C. 테스트·조정 (전부 Inspector에서)
+| 증상 | 할 것 |
+|---|---|
+| 안 움직임 | `Serial` 오브젝트의 Axis Index를 0 / 1 / 2로 바꿔보기 |
+| 방향 반대 | `Player`의 Invert 체크 |
+| 너무 둔함/예민함 | `Serial`의 Sensitivity 조절 (기본 1.5) |
+| 포트 에러 | Console 메시지 확인 → Port Name에 `COM3`처럼 직접 입력 |
+| 난이도 | 프리팹 `Obstacle`의 Speed, `GameManager`의 Spawner Interval |
+
+- 센서 없이도 ←→ / A D 키로 플레이 가능 (테스트·시연용)
+- 시작할 때 들고 있는 자세가 기준(0)이 됨. 게임 시작 1초 동안은 평평하게 들고 있기
