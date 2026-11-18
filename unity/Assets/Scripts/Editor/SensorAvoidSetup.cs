@@ -32,9 +32,24 @@ public static class SensorAvoidSetup
     }
 
     [MenuItem("SensorAvoid/게임 씬 자동 생성")]
-    static void Build()
+    public static void Build()
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+        BuildCore();
+    }
+
+    // 명령줄용: Unity.exe -batchmode -projectPath <경로> -executeMethod SensorAvoidSetup.BuildBatch -quit -logFile -
+    public static void BuildBatch()
+    {
+        string sample = "Assets/Scenes/SampleScene.unity";          // 템플릿 기본 씬이 있으면 그걸 사용
+        if (File.Exists(sample)) EditorSceneManager.OpenScene(sample);
+        else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        BuildCore();
+        AssetDatabase.SaveAssets();
+    }
+
+    static void BuildCore()
+    {
         FixApiLevel();
 
         Directory.CreateDirectory("Assets/Sprites");
@@ -50,6 +65,20 @@ public static class SensorAvoidSetup
         {
             GameObject old = GameObject.Find(n);
             if (old != null) Object.DestroyImmediate(old);
+        }
+
+        // 카메라 없으면 생성 (명령줄로 만든 빈 씬 대비)
+        if (Camera.main == null)
+        {
+            var camGo = new GameObject("Main Camera");
+            camGo.tag = "MainCamera";
+            camGo.transform.position = new Vector3(0f, 0f, -10f);
+            var cam = camGo.AddComponent<Camera>();
+            cam.orthographic = true;
+            cam.orthographicSize = 5f;
+            cam.clearFlags = CameraClearFlags.SolidColor;
+            cam.backgroundColor = new Color(0.1f, 0.1f, 0.15f);
+            camGo.AddComponent<AudioListener>();
         }
 
         // Player
