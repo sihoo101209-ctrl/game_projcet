@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
     public float speed = 8f;        // 최대 이동 속도
     public float limitX = 8f;       // 화면 밖으로 못 나가게 하는 x 한계
     public float deadZone = 0.1f;   // 이 값보다 작게 기울이면 무시 (떨림 방지)
-    public bool invert = false;     // 방향이 반대면 체크
+    public bool invert = true;      // 방향이 반대면 체크. 실측: 오른쪽으로 기울이면 ax가 음수라 반전
 
     void Update()
     {

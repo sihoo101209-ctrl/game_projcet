@@ -13,7 +13,7 @@ public class SerialReceiver : MonoBehaviour
 {
     public string portName = "auto";   // "auto"면 자동 선택. 안 되면 "COM3"처럼 직접 입력
     public int baudRate = 115200;      // mpu_read.ino의 Serial.begin 값과 같게
-    public int axisIndex = 1;          // 좌우 기울기 축 (ax=0, ay=1, az=2)
+    public int axisIndex = 0;          // 좌우 기울기 축 (ax=0, ay=1, az=2). 실측: 좌우로 기울이면 ax가 변함
     public float sensitivity = 1.5f;   // 클수록 조금만 기울여도 빠르게 움직임
     public static float tilt = 0f;     // 다른 스크립트가 읽는 값
 

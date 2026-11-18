@@ -1,0 +1,11 @@
+# Unity (SensorAvoid/)
+SensorAvoid/[Ll]ibrary/
+SensorAvoid/[Tt]emp/
+SensorAvoid/[Ll]ogs/
+SensorAvoid/[Oo]bj/
+SensorAvoid/[Bb]uild/
+SensorAvoid/[Uu]serSettings/
+SensorAvoid/*.csproj
+SensorAvoid/*.sln
+*.log
+SensorAvoid/*.slnx
