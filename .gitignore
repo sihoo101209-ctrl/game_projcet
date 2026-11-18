@@ -9,3 +9,4 @@ SensorAvoid/*.csproj
 SensorAvoid/*.sln
 *.log
 SensorAvoid/*.slnx
+release/
